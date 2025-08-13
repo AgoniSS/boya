@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>黑神话：悟空 - 游戏介绍</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&display=swap');
+
+        :root {
+            --primary-color: #000000;
+            --secondary-color: #FFFFFF;
+            --accent-color: #9D2932;
+            --gold-color: #D4AF37;
+        }
+
+        body {
+            font-family: 'Noto Serif SC', serif;
+            background-color: var(--secondary-color);
+            color: var(--primary-color);
+        }
+
+        .chinese-border {
+            position: relative;
+            border: 2px solid var(--primary-color);
+        }
+
+        .chinese-border::before,
+        .chinese-border::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-color: var(--primary-color);
+            border-style: solid;
+        }
+
+        .chinese-border::before {
+            top: -10px;
+            left: -10px;
+            border-width: 2px 0 0 2px;
+        }
+
+        .chinese-border::after {
+            top: -10px;
+            right: -10px;
+            border-width: 2px 2px 0 0;
+        }
+
+        .chinese-border-bottom::before,
+        .chinese-border-bottom::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-color: var(--primary-color);
+            border-style: solid;
+        }
+
+        .chinese-border-bottom::before {
+            bottom: -10px;
+            left: -10px;
+            border-width: 0 0 2px 2px;
+        }
+
+        .chinese-border-bottom::after {
+            bottom: -10px;
+            right: -10px;
+            border-width: 0 2px 2px 0;
+        }
+
+        .cloud-bg {
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 50 C55 30, 75 30, 80 50 C85 70, 65 70, 60 50 C55 30, 35 30, 40 50 C45 70, 25 70, 30 50 C35 30, 55 30, 50 50 Z' fill='none' stroke='%23000000' stroke-width='0.5'/%3E%3C/svg%3E");
+            background-repeat: repeat;
+            background-size: 200px;
+            opacity: 0.1;
+        }
+
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .scroll-reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .ink-splash {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ink-splash::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 200px;
+            height: 200px;
+            background-image: url("data:image/svg+xml,%3Csvg width='200' height='200' viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M100,100 Q150,50 200,100 Q150,150 100,200 Q50,150 0,100 Q50,50 100,100 Z' fill='none' stroke='%23000000' stroke-width='0.5'/%3E%3C/svg%3E");
+            opacity: 0.05;
+        }
+
+        .float-animation {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+            100% {
+                transform: translateY(0px);
+            }
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <!-- 导航栏 -->
+    <nav class="fixed top-0 left-0 right-0 bg-white bg-opacity-95 shadow-sm z-50 transition-all duration-300">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fa fa-gamepad text-2xl"></i>
+                <span class="text-xl font-bold tracking-wider">黑神话：悟空</span>
+            </div>
+            <div class="hidden md:flex space-x-8">
+                <a href="#intro" class="hover:text-gray-600 transition-colors duration-300">游戏简介</a>
+                <a href="#features" class="hover:text-gray-600 transition-colors duration-300">游戏特色</a>
+                <a href="#screenshots" class="hover:text-gray-600 transition-colors duration-300">游戏截图</a>
+                <a href="#requirements" class="hover:text-gray-600 transition-colors duration-300">系统要求</a>
+            </div>
+            <div class="md:hidden">
+                <button id="menu-toggle" class="text-2xl">
+                    <i class="fa fa-bars"></i>
+                </button>
+            </div>
+        </div>
+        <!-- 移动端菜单 -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white w-full border-t border-gray-200">
+            <div class="container mx-auto px-4 py-2 flex flex-col space-y-3">
+                <a href="#intro" class="py-2 hover:text-gray-600 transition-colors duration-300">游戏简介</a>
+                <a href="#features" class="py-2 hover:text-gray-600 transition-colors duration-300">游戏特色</a>
+                <a href="#screenshots" class="py-2 hover:text-gray-600 transition-colors duration-300">游戏截图</a>
+                <a href="#requirements" class="py-2 hover:text-gray-600 transition-colors duration-300">系统要求</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 头部Banner -->
+    <header class="pt-16 relative h-screen flex items-center justify-center overflow-hidden ink-splash">
+        <div class="cloud-bg absolute inset-0"></div>
+        <div class="container mx-auto px-4 z-10 text-center">
+            <h1 class="text-5xl md:text-7xl font-bold mb-6 tracking-wider scroll-reveal">黑神话：悟空</h1>
+            <p class="text-xl md:text-2xl mb-10 max-w-3xl mx-auto scroll-reveal" style="transition-delay: 0.2s">踏碎凌霄，放肆桀骜</p>
+            <a href="https://www.heishenhua.com/" target="_blank" class="inline-block px-8 py-3 border-2 border-black hover:bg-black hover:text-white transition-colors duration-300 scroll-reveal" style="transition-delay: 0.4s">了解更多</a>
+        </div>
+        <div class="absolute bottom-10 left-0 right-0 text-center scroll-reveal" style="transition-delay: 0.6s">
+            <i class="fa fa-angle-down text-3xl animate-bounce"></i>
+        </div>
+    </header>
+
+    <!-- 游戏简介 -->
+    <section id="intro" class="py-20 bg-white relative ink-splash">
+        <div class="cloud-bg absolute inset-0"></div>
+        <div class="container mx-auto px-4 z-10 relative">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-10 text-center scroll-reveal">游戏简介</h2>
+                <div class="chinese-border chinese-border-bottom p-8 md:p-10 bg-white bg-opacity-90 scroll-reveal" style="transition-delay: 0.2s">
+                    <p class="mb-6 leading-relaxed text-lg">《黑神话：悟空》是一款由中国游戏公司<em>游戏科学</em>开发的动作角色扮演游戏。游戏以中国古典名著《西游记》为灵感，但采用了全新的暗黑风格叙事，重新诠释了孙悟空的传奇故事。</p>
+                    <p class="mb-6 leading-relaxed text-lg">玩家将扮演孙悟空，在一个充满神话色彩的世界中探索，与各种妖魔鬼怪战斗，揭开隐藏在取经故事背后的真相。游戏融合了中国传统神话元素与现代游戏设计理念，打造出一个既熟悉又陌生的东方奇幻世界。</p>
+                    <p class="leading-relaxed text-lg">游戏以其精美的画面、流畅的战斗系统和深度的剧情受到了广泛关注，被视为中国游戏产业走向世界的代表性作品之一。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 游戏特色 -->
+    <section id="features" class="py-20 bg-gray-50 relative ink-splash">
+        <div class="cloud-bg absolute inset-0"></div>
+        <div class="container mx-auto px-4 z-10 relative">
+            <h2 class="text-3xl md:text-4xl font-bold mb-16 text-center scroll-reveal">游戏特色</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12">
+                <!-- 特色1 -->
+                <div class="bg-white p-8 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 scroll-reveal">
+                    <div class="text-4xl mb-6 text-center"><i class="fa fa-paint-brush"></i></div>
+                    <h3 class="text-xl font-bold mb-4 text-center">东方美学</h3>
+                    <p class="text-gray-800 leading-relaxed">游戏采用中国传统水墨画风格，结合现代3D技术，打造出一个充满东方韵味的奇幻世界。从角色设计到场景构建，都融入了大量中国传统文化元素。</p>
+                </div>
+                <!-- 特色2 -->
+                <div class="bg-white p-8 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 scroll-reveal" style="transition-delay: 0.2s">
+                    <div class="text-4xl mb-6 text-center"><i class="fa fa-sword"></i></div>
+                    <h3 class="text-xl font-bold mb-4 text-center">爽快战斗</h3>
+                    <p class="text-gray-800 leading-relaxed">游戏拥有流畅的动作系统和丰富的战斗技能，玩家可以体验到孙悟空的各种经典招式，如金箍棒法、七十二变等，同时还能自定义战斗风格。</p>
+                </div>
+                <!-- 特色3 -->
+                <div class="bg-white p-8 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 scroll-reveal" style="transition-delay: 0.4s">
+                    <div class="text-4xl mb-6 text-center"><i class="fa fa-book"></i></div>
+                    <h3 class="text-xl font-bold mb-4 text-center">暗黑叙事</h3>
+                    <p class="text-gray-800 leading-relaxed">游戏采用非线性叙事方式，通过不同的任务和场景，逐步揭示孙悟空的过去和取经故事背后的秘密，打造出一个充满深度和悬念的剧情体验。</p>
+                </div>
+                <!-- 特色4 -->
+                <div class="bg-white p-8 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 scroll-reveal" style="transition-delay: 0.6s">
+                    <div class="text-4xl mb-6 text-center"><i class="fa fa-map-o"></i></div>
+                    <h3 class="text-xl font-bold mb-4 text-center">开放世界</h3>
+                    <p class="text-gray-800 leading-relaxed">游戏拥有广阔的开放世界地图，玩家可以自由探索各种不同的场景，从繁华的长安城到神秘的花果山，每个地方都有独特的风景和故事。</p>
+                </div>
+                <!-- 特色5 -->
+                <div class="bg-white p-8 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 scroll-reveal" style="transition-delay: 0.8s">
+                    <div class="text-4xl mb-6 text-center"><i class="fa fa-cogs"></i></div>
+                    <h3 class="text-xl font-bold mb-4 text-center">丰富系统</h3>
+                    <p class="text-gray-800 leading-relaxed">游戏包含多种系统，如角色成长、装备强化、技能升级等，玩家可以根据自己的喜好打造独一无二的孙悟空，体验不同的游戏玩法。</p>
+                </div>
+                <!-- 特色6 -->
+                <div class="bg-white p-8 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 scroll-reveal" style="transition-delay: 1s">
+                    <div class="text-4xl mb-6 text-center"><i class="fa fa-headphones"></i></div>
+                    <h3 class="text-xl font-bold mb-4 text-center">史诗配乐</h3>
+                    <p class="text-gray-800 leading-relaxed">游戏邀请了知名作曲家打造史诗级配乐，结合中国传统乐器和现代交响音乐，为玩家带来沉浸式的听觉体验，完美诠释东方奇幻世界的氛围。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 游戏攻略 -->
+    <section id="guide" class="py-20 bg-white relative ink-splash">
+        <div class="cloud-bg absolute inset-0"></div>
+        <div class="container mx-auto px-4 z-10 relative">
+            <h2 class="text-3xl md:text-4xl font-bold mb-16 text-center scroll-reveal">游戏攻略</h2>
+            <div class="max-w-4xl mx-auto">
+                <h3 class="text-2xl font-bold mb-8 text-center scroll-reveal">棍法技能树</h3>
+                
+                <!-- 劈棍 -->
+                <div class="bg-white p-8 rounded-lg shadow-md mb-10 scroll-reveal chinese-border">
+                    <h4 class="text-xl font-bold mb-4 flex items-center">
+                        <i class="fa fa-arrows-v text-red-600 mr-3"></i>劈棍技能树
+                    </h4>
+                    <ul class="space-y-4 text-gray-800">
+                        <li class="flex items-start">
+                            <i class="fa fa-circle text-xs mt-2 mr-2 text-red-600"></i>
+                            <div>
+                                <span class="font-bold">基础劈击：</span>简单的横向劈砍，消耗少量体力，造成中等伤害。
+                            </div>
+                        </li>
+                        <li class="flex items-start pl-6">
+                            <i class="fa fa-circle text-xs mt-2 mr-2 text-red-600"></i>
+                            <div>
+                                <span class="font-bold">旋风劈：</span>旋转身体进行360度横扫，对周围敌人造成伤害。
+                            </div>
+                        </li>
+                        <li class="flex items-start pl-6">
+                            <i class="fa fa-circle text-xs mt-2 mr-2 text-red-600"></i>
+                            <div>
+                                <span class="font-bold">雷霆劈：</span>蓄力后向下劈砍，对单个目标造成高额伤害，并产生冲击波。
+                            </div>
+                        </li>
+                        <li class="flex items-start pl-12">
+                            <i class="fa fa-circle text-xs mt-2 mr-2 text-red-600"></i>
+                            <div>
+                                <span class="font-bold">裂地斩：</span>强力下劈，造成范围伤害并使地面开裂，对站在裂缝上的敌人造成持续伤害。
+                            </div>
+                        </li>
+                        <li class="flex items-start pl-12">
+                            <i class="fa fa-circle text-xs mt-2 mr-2 text-red-600"></i>
+                            <div>
+                                <span class="font-bold">劈山式：</span>终极技能，跃起后全力劈下，对大范围内的敌人造成巨大伤害，并附带眩晕效果。
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- 立棍 -->
+                <div class="bg-white p-8 rounded-lg shadow-md mb-10 scroll-reveal chinese-border" style="transition-delay: 0.3s">
+                    <h4 class="text-xl font-bold mb-4 flex items-center">
+                        <i class="fa fa-arrows-h text-blue-600 mr-3"></i>立棍技能树
+                    </h4>
+                    <ul class="space-y-4 text-gray-800">
+                        <li class="flex items-start">
+                            <i class="fa fa-circle text-xs mt-2 mr-2 text-blue-600"></i>
+                            <div>
+                                <span class="font-bold">基础挑击：</span>向上挑击，造成少量伤害并击退敌人。
+                            </div>
+                        </li>
+                        <li class="flex items-start pl-6">
+                            <i class="fa fa-circle text-xs mt-2 mr-2 text-blue-600"></i>
+                            <div>
+                                <span class="font-bold">横扫千军：</span>水平方向挥舞金箍棒，攻击前方扇形区域内的敌人。
+                            </div>
+                        </li>
+                        <li class="flex items-start pl-6">
+                            <i class="fa fa-circle text-xs mt-2 mr-2 text-blue-600"></i>
+                            <div>
+                                <span class="font-bold">盘龙棍：</span>快速旋转金箍棒形成防御屏障，减少受到的伤害，并对靠近的敌人造成伤害。
+                            </div>
+                        </li>
+                        <li class="flex items-start pl-12">
+                            <i class="fa fa-circle text-xs mt-2 mr-2 text-blue-600"></i>
+                            <div>
+                                <span class="font-bold">定海针：</span>将金箍棒插入地面，形成能量领域，增强自身防御力并削弱领域内敌人的攻击。
+                            </div>
+                        </li>
+                        <li class="flex items-start pl-12">
+                            <i class="fa fa-circle text-xs mt-2 mr-2 text-blue-600"></i>
+                            <div>
+                                <span class="font-bold">擎天式：</span>终极技能，将金箍棒变大并举起，然后砸向地面，造成大范围伤害并击飞敌人。
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- 戳棍 -->
+                <div class="bg-white p-8 rounded-lg shadow-md scroll-reveal chinese-border" style="transition-delay: 0.6s">
+                    <h4 class="text-xl font-bold mb-4 flex items-center">
+                        <i class="fa fa-arrow-right text-green-600 mr-3"></i>戳棍技能树
+                    </h4>
+                    <ul class="space-y-4 text-gray-800">
+                        <li class="flex items-start">
+                            <i class="fa fa-circle text-xs mt-2 mr-2 text-green-600"></i>
+                            <div>
+                                <span class="font-bold">基础突刺：</span>向前快速刺击，造成中等伤害，可穿透多个敌人。
+                            </div>
+                        </li>
+                        <li class="flex items-start pl-6">
+                            <i class="fa fa-circle text-xs mt-2 mr-2 text-green-600"></i>
+                            <div>
+                                <span class="font-bold">穿云刺：</span>蓄力后向前方射出一道能量刺，对直线上的敌人造成伤害。
+                            </div>
+                        </li>
+                        <li class="flex items-start pl-6">
+                            <i class="fa fa-circle text-xs mt-2 mr-2 text-green-600"></i>
+                            <div>
+                                <span class="font-bold">连环刺：</span>快速进行多次刺击，对单个目标造成连续伤害。
+                            </div>
+                        </li>
+                        <li class="flex items-start pl-12">
+                            <i class="fa fa-circle text-xs mt-2 mr-2 text-green-600"></i>
+                            <div>
+                                <span class="font-bold">万箭穿心：</span>向四周射出多道能量刺，攻击周围所有敌人。
+                            </div>
+                        </li>
+                        <li class="flex items-start pl-12">
+                            <i class="fa fa-circle text-xs mt-2 mr-2 text-green-600"></i>
+                            <div>
+                                <span class="font-bold">破天式：</span>终极技能，将金箍棒对准天空，聚集能量后射出一道巨大的能量柱，对目标区域造成毁灭性伤害。
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 系统要求 -->
+    <section id="requirements" class="py-20 bg-gray-50 relative ink-splash">
+        <div class="cloud-bg absolute inset-0"></div>
+        <div class="container mx-auto px-4 z-10 relative">
+            <h2 class="text-3xl md:text-4xl font-bold mb-16 text-center scroll-reveal">系统要求</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-4xl mx-auto">
+                <!-- 最低配置 -->
+                <div class="bg-white p-8 rounded-lg shadow-md chinese-border chinese-border-bottom scroll-reveal">
+                    <h3 class="text-2xl font-bold mb-6 text-center">最低配置</h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <i class="fa fa-check-circle mt-1 mr-3"></i>
+                            <div>
+                                <span class="font-bold">操作系统:</span> Windows 10 64-bit
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fa fa-check-circle mt-1 mr-3"></i>
+                            <div>
+                                <span class="font-bold">处理器:</span> Intel Core i5-8400 或 AMD Ryzen 5 2600
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fa fa-check-circle mt-1 mr-3"></i>
+                            <div>
+                                <span class="font-bold">内存:</span> 16 GB RAM
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fa fa-check-circle mt-1 mr-3"></i>
+                            <div>
+                                <span class="font-bold">显卡:</span> NVIDIA GeForce GTX 1060 6GB 或 AMD Radeon RX 580 8GB
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fa fa-check-circle mt-1 mr-3"></i>
+                            <div>
+                                <span class="font-bold">存储空间:</span> 80 GB 可用空间
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fa fa-check-circle mt-1 mr-3"></i>
+                            <div>
+                                <span class="font-bold">DirectX:</span> Version 12
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fa fa-check-circle mt-1 mr-3"></i>
+                            <div>
+                                <span class="font-bold">网络:</span> 宽带互联网连接
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <!-- 推荐配置 -->
+                <div class="bg-white p-8 rounded-lg shadow-md chinese-border chinese-border-bottom scroll-reveal" style="transition-delay: 0.4s">
+                    <h3 class="text-2xl font-bold mb-6 text-center">推荐配置</h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <i class="fa fa-check-circle mt-1 mr-3"></i>
+                            <div>
+                                <span class="font-bold">操作系统:</span> Windows 10/11 64-bit
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fa fa-check-circle mt-1 mr-3"></i>
+                            <div>
+                                <span class="font-bold">处理器:</span> Intel Core i7-10700K 或 AMD Ryzen 7 5800X
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fa fa-check-circle mt-1 mr-3"></i>
+                            <div>
+                                <span class="font-bold">内存:</span> 32 GB RAM
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fa fa-check-circle mt-1 mr-3"></i>
+                            <div>
+                                <span class="font-bold">显卡:</span> NVIDIA GeForce RTX 3070 或 AMD Radeon RX 6800 XT
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fa fa-check-circle mt-1 mr-3"></i>
+                            <div>
+                                <span class="font-bold">存储空间:</span> 80 GB SSD
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fa fa-check-circle mt-1 mr-3"></i>
+                            <div>
+                                <span class="font-bold">DirectX:</span> Version 12
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fa fa-check-circle mt-1 mr-3"></i>
+                            <div>
+                                <span class="font-bold">网络:</span> 宽带互联网连接
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 底部区域 -->
+    <footer class="bg-black text-white py-10 relative">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <div class="flex items-center space-x-2">
+                        <i class="fa fa-gamepad text-2xl"></i>
+                        <span class="text-xl font-bold tracking-wider">黑神话：悟空</span>
+                    </div>
+                    <p class="mt-2 text-gray-400">© 2023 游戏科学. 保留所有权利.</p>
+                </div>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-white hover:text-gray-400 transition-colors duration-300"><i class="fa fa-weibo text-2xl"></i></a>
+                    <a href="#" class="text-white hover:text-gray-400 transition-colors duration-300"><i class="fa fa-wechat text-2xl"></i></a>
+                    <a href="#" class="text-white hover:text-gray-400 transition-colors duration-300"><i class="fa fa-twitter text-2xl"></i></a>
+                    <a href="#" class="text-white hover:text-gray-400 transition-colors duration-300"><i class="fa fa-youtube-play text-2xl"></i></a>
+                </div>
+            </div>
+            <div class="mt-8 pt-8 border-t border-gray-800 text-center text-gray-500">
+                <p>本网页仅用于展示，非官方网站。游戏相关信息请以官方发布为准。</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 移动端菜单切换
+        document.getElementById('menu-toggle').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // 滚动时导航栏样式变化
+        window.addEventListener('scroll', function() {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 100) {
+                nav.classList.add('py-2', 'shadow-md');
+                nav.classList.remove('py-3', 'shadow-sm');
+            } else {
+                nav.classList.add('py-3', 'shadow-sm');
+                nav.classList.remove('py-2', 'shadow-md');
+            }
+        });
+
+        // 滚动显示动画
+        function checkScroll() {
+            const elements = document.querySelectorAll('.scroll-reveal');
+            elements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                if (elementTop < window.innerHeight - elementVisible) {
+                    element.classList.add('active');
+                }
+            });
+        }
+
+        // 初始检查
+        checkScroll();
+
+        // 滚动时检查
+        window.addEventListener('scroll', checkScroll);
+
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    // 关闭移动端菜单
+                    document.getElementById('mobile-menu').classList.add('hidden');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
